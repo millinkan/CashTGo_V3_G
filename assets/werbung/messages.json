@@ -1,0 +1,52 @@
+{
+  "messages": [
+    {
+      "id": 1,
+      "text1": "Ein traumhafter Schluck Heidi Latte für eine Ziegenpause wert.",
+      "text2": "Heidi Latte Voucher",
+      "category": "Kaffee",
+      "geo_coordinates": {
+        "latitude": 46.850805,
+        "longitude": 9.532448
+      },
+      "store_id": 101,
+      "image": "images/heidi_latte.jpg"
+    },
+    {
+      "id": 2,
+      "text1": "Fahre wie ein Weltmeister, auch wenn du keiner bist!",
+      "text2": "Ski Voucher",
+      "category": "Sport",
+      "geo_coordinates": {
+        "latitude": 46.850805,
+        "longitude": 9.532448
+      },
+      "store_id": 102,
+      "image": "images/Go-Vertical.jpg"
+    },
+    {
+      "id": 3,
+      "text1": "Espresso, der selbst George Clooney überzeugt hätte",
+      "text2": "Espresso Voucher",
+      "category": "Kaffee",
+      "geo_coordinates": {
+        "latitude": 46.850805,
+        "longitude": 9.532448
+      },
+      "store_id": 101,
+      "image": "images/espresso1.jpg"
+    },
+    {
+      "id": 4,
+      "text1": "Besser als Audrey Hepburn, Frühstück bei Jäggi",
+      "text2": "Schmuck Voucher",
+      "category": "Gold",
+      "geo_coordinates": {
+        "latitude": 46.850805,
+        "longitude": 9.532448
+      },
+      "store_id": 103,
+      "image": "images/pomellato.png"
+    }
+  ]
+}

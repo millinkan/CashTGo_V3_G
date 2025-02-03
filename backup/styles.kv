@@ -1,0 +1,82 @@
+<ButtonWithImage@BoxLayout>:
+    image: ''  # Standardwert, falls kein Bild definiert ist
+    text: ''  # Standardtext, falls keiner definiert ist
+    orientation: 'horizontal'
+    size_hint: (1, None)
+    height: '90dp'
+    spacing: 15
+    padding: [15, 15]
+
+    canvas.before:
+        Color:
+            rgba: (0.98, 0.95, 0.89, 1)  # Beige Hintergrund
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [25]  # Abgerundete Ecken
+        Color:
+            rgba: (1, 1, 1, 1)  # Weißer Rand
+        Line:
+            width: 3
+            rounded_rectangle: (self.x, self.y, self.width, self.height, 25)
+
+    Image:
+        source: root.image
+        size_hint: None, None
+        size: '70dp', '70dp'
+        pos_hint: {'center_y': 0.5}
+
+    Label:
+        text: root.text
+        font_size: '18sp'
+        halign: 'left'
+        valign: 'middle'
+        size_hint: (1, 1)
+        text_size: self.size
+        #color: (0.36, 0.25, 0.2, 1)  # Braun
+        color: (0.49, 0.12, 0.07, 1) # Rot-Braun
+        padding_x: 20
+
+<ScreenHome>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+        spacing: 20
+
+        canvas.before:
+            Color:
+                rgba: (0.98, 0.95, 0.89, 1)  # Hintergrundfarbe
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        Label:
+            text: "Graziela, schön, dich zu sehen"
+            font_size: '24sp'
+            bold: True
+            size_hint: (1, 0.2)
+            halign: 'center'
+            valign: 'middle'
+
+        ButtonWithImage:
+            text: "Lebendige Charaktere für eine Geschichte entwickeln"
+            image: "images/CashBack.jpg"
+
+        ButtonWithImage:
+            text: "Bitte Copilot, einen Workshop zu erstellen"
+            image: "images/Cash4Good.jpg"
+
+        TextInput:
+            hint_text: "Nachricht an Copilot"
+            multiline: False
+            size_hint: (1, None)
+            height: '50dp'
+            padding: [10, 10]
+            background_color: (1, 1, 1, 1)
+
+        Button:
+            text: "Senden"
+            size_hint: (1, None)
+            height: '50dp'
+            background_color: (0.36, 0.25, 0.2, 1)
+            color: (1, 1, 1, 1)

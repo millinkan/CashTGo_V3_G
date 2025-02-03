@@ -1,0 +1,82 @@
+import os
+from kivy.uix.screenmanager import Screen
+from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.label import Label
+from kivy.uix.image import Image
+from CashTGo.core.widgets import CustomRoundedCard
+from CashTGo.core.color import cTx  # Import color
+from kivy.clock import Clock
+
+
+class ScanScreen(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        # Background Image
+        self.bg_image = Image(source='assets/images/I1.png', allow_stretch=True, keep_ratio=False)
+        self.add_widget(self.bg_image)
+
+        # Main Layout
+        layout = FloatLayout()
+
+        # Title Label
+        title_label = Label(
+            text="Scan Your QR Code Here!",
+            font_size="28sp",
+            color=cTx,  # Text color
+            font_name="assets/fonts/PlaywriteNO-Regular.ttf",  # Custom font
+            halign="center",
+            valign="middle",
+            size_hint=(None, None),  # Fixed size
+            size=(400, 60),
+            text_size=(400, None),  # Limit text within 400px width
+            pos_hint={"center_x": 0.5, "top": 0.95},  # Position towards top-center
+        )
+        layout.add_widget(title_label)
+
+        # Card: QR Code Scanner
+        qr_scanner_card = CustomRoundedCard(
+            text="Scan Your Swiss Note CH",
+            image_path='assets/images/scan_qr.png',
+            pos_hint={"center_x": 0.5, "center_y": 0.65},
+            size_hint=(0.8, None),
+            height="120dp"
+        )
+        qr_scanner_card.bind(on_press=self.start_scan)
+        layout.add_widget(qr_scanner_card)
+
+        # Card: Scanner Help
+        help_card = CustomRoundedCard(
+            text="How to Use Scanner",
+            image_path='assets/images/scanner_help.png',
+            pos_hint={"center_x": 0.5, "center_y": 0.45},
+            size_hint=(0.8, None),
+            height="120dp"
+        )
+        help_card.bind(on_press=self.go_to_help)
+        layout.add_widget(help_card)
+
+        # Card: Back to Home
+        back_home_card = CustomRoundedCard(
+            text="Back to Home",
+            image_path='assets/images/back_home.png',
+            pos_hint={"center_x": 0.5, "center_y": 0.25},
+            size_hint=(0.8, None),
+            height="120dp"
+        )
+        back_home_card.bind(on_press=self.go_to_home)
+        layout.add_widget(back_home_card)
+
+        self.add_widget(layout)
+
+    def start_scan(self, *args):
+        """Navigate to start the scanning process."""
+        self.manager.current = 'scanbus'
+
+    def go_to_help(self, *args):
+        """Navigate to the scanner help page."""
+        self.manager.current = 'scannerHelp'
+
+    def go_to_home(self, *args):
+        """Navigate back to the home screen."""
+        self.manager.current = 'homeA'

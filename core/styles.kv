@@ -1,0 +1,33 @@
+#:import md_icons kivymd.icon_definitions.md_icons
+
+# Material Design Screen Background
+<Screen>:
+    canvas.before:
+        Color:
+            rgba: app.theme_cls.bg_dark  # Use KivyMD app theme for background color
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+# General Style for Buttons
+<MDRaisedButton>:
+    md_bg_color: app.theme_cls.primary_color  # Primary color for buttons
+    text_color: 1, 1, 1, 1  # White text
+
+<MDTextField>:
+    size_hint_x: 0.8  # Field width (80% of screen width)
+    pos_hint: {"center_x": 0.5}  # Center horizontally
+    mode: "rectangle"  # Use rectangular text fields
+
+# Style for Error Messages
+<ErrorLabel@MDLabel>:
+    color: 1, 0, 0, 1  # Red color
+    halign: "center"
+    font_style: "Body1"# Standardstil für alle Screens
+<Screen>:
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1  # Weißer Hintergrund
+        Rectangle:
+            pos: self.pos
+            size: self.size
