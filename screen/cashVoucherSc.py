@@ -1,52 +1,54 @@
 import os
 from kivy.uix.screenmanager import Screen
+from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.label import Label
 from kivy.uix.image import Image
-from CashTGo.core.widgets import CustomRoundedCard
-from CashTGo.core.color import cTx  # Import color
+from Project_5.CashTGo.core.widgets import CustomRoundedCard
+from Project_5.CashTGo.core.widgets2 import CustomRddCard
+from Project_5.CashTGo.core.widgets import ShadowRoundedButton
+from Project_5.CashTGo.core.color import cTx  # Import color
 from kivy.clock import Clock
 
+#Starting the Cash Voucher Screen
 
-class CashVoucherScreen(Screen):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+class CashVoucherScreen ( Screen ):
+    def __init__(self , **kwargs):
+        super ().__init__ ( **kwargs )
 
         # Background Image
-        self.bg_image = Image(source='assets/images/I1.png', allow_stretch=True, keep_ratio=False)
-        self.add_widget(self.bg_image)
+        self.bg_image = Image ( source = 'assets/images/I1.png' , allow_stretch = True , keep_ratio = False )
+        self.add_widget ( self.bg_image )
 
-        # Main Layout
-        layout = FloatLayout()
+        # Layout
+        layout = FloatLayout ()
 
         # Title Label
-        title_label = Label(
-            text="Cash Voucher Page!",
-            font_size="28sp",
-            color=cTx,  # Text color
-            font_name="assets/fonts/PlaywriteNO-Regular.ttf",  # Custom font
-            halign="center",
-            valign="middle",
-            size_hint=(None, None),  # Fixed size
-            size=(400, 60),
-            text_size=(400, None),  # Limit text within 400px width
-            pos_hint={"center_x": 0.5, "top": 0.95},  # Position towards top-center
+        title_label = Label (
+            text = "Welcome to Zurich!\n Find services below" ,
+            font_size = "28sp" ,
+            # ...Other properties
+            pos_hint = {"center_x": 0.5 , "top": 0.95} ,
         )
-        layout.add_widget(title_label)
+       # layout.add_widget ( title_label )
 
-        # Card: Back to Home
-        back_home_card = CustomRoundedCard(
-            text="Back to Home",
-            image_path='assets/images/back_home.png',
-            pos_hint={"center_x": 0.5, "center_y": 0.25},
-            size_hint=(0.8, None),
-            height="120dp"
+        # Back to Home Button
+        back_home_card = ShadowRoundedButton (
+            text = "Back" , font_size = "18sp" ,
+            pos_hint = {"center_x": 0.5 , "center_y": 0.15} ,
         )
-        back_home_card.bind(on_press=self.go_to_home)
-        layout.add_widget(back_home_card)
+        back_home_card.bind ( on_press = self.go_to_home )
+        layout.add_widget ( back_home_card )
 
-        self.add_widget(layout)
+        # Creating a card instance (ensure image_path passed properly)
+        card_instance = CustomRddCard ( image_path = 'assets/images/Zurich.png' )
 
-    def go_to_home(self, *args):
-        """Navigate back to the home screen."""
+        # Add the card to display
+        self.add_widget ( card_instance )
+
+        # Add layout to the screen
+        self.add_widget ( layout )
+
+    def go_to_home(self , *args):
+        # Navigation or home logic
         self.manager.current = 'homeA'

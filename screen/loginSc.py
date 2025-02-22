@@ -2,12 +2,39 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.label import Label
 from kivy.uix.image import Image
-from CashTGo.core.widgets import ShadowRoundedButton, InputField
+from Project_5.CashTGo.core.widgets import ShadowRoundedButton, InputField
+from Project_5.CashTGo.core.user_profile import Profile
 
 # Dummy database for user credentials
 USER_DATABASE = {
     "testuser": "password",
-    "a": "a"
+    "a": "a",
+    "b": "b",
+    "c": "c",
+}
+# Mapping users to their cities and amenities
+USER_CITY_MAP = {
+    "a": {
+        "city": "Zürich" ,
+        "coordinates": (47.3769 , 8.5417) ,
+        "library": "Zürich Main Library" ,
+        "restaurant": "Hiltl Restaurant" ,
+        "cafe": "Café Schober"
+    } ,
+    "b": {
+        "city": "Bern" ,
+        "coordinates": (46.9481 , 7.4474) ,
+        "library": "Swiss National Library" ,
+        "restaurant": "Kornhauskeller" ,
+        "cafe": "Adriano's Bar & Café"
+    } ,
+    "c": {
+        "city": "St. Gallen" ,
+        "coordinates": (47.4245 , 9.3767) ,
+        "library": "Abbey Library of Saint Gall" ,
+        "restaurant": "Restaurant Schlössli" ,
+        "cafe": "Café Pelikan"
+    }
 }
 
 class LoginScreen(Screen):

@@ -3,12 +3,11 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.label import Label
 from kivy.uix.image import Image
-from CashTGo.core.widgets import CustomRoundedCard
-from CashTGo.core.color import cTx  # Import color
+from Project_5.CashTGo.core.widgets import CustomRoundedCard
+from Project_5.CashTGo.core.color import cTx  # Import color
 from kivy.uix.boxlayout import BoxLayout
-from CashTGo.features.cashJourneyFe import cashJourneyFe  # Import cashJourneyFe class
+from Project_5.CashTGo.features.cashJourneyFe import CashJourney as CashJourneyFe  # Import cashJourneyFe class with alias
 from kivy.metrics import dp
-
 
 class CashJourneyScreen(Screen):
     def __init__(self, **kwargs):
@@ -45,7 +44,7 @@ class CashJourneyScreen(Screen):
 
         # Add cashJourneyFe (MapView) inside the info card
         map_container = BoxLayout(orientation="vertical", padding=(0, 0, 0, 0))  # Removed padding
-        map_view = cashJourneyFe()  # Create an instance of cashJourneyFe
+        map_view = CashJourneyFe()  # Initialize the CashJourneyFe instance
         map_view.size_hint = (1, 1)  # Map fills its container
         map_container.add_widget(map_view)
 

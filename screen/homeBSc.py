@@ -1,106 +1,244 @@
-from kivy.uix.screenmanager import Screen, ScreenManager
-from kivy.uix.boxlayout import BoxLayout
+import os
+from kivy.uix.screenmanager import Screen
 from kivy.uix.scrollview import ScrollView
-from kivy.uix.button import Button
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.label import Label
-from kivy.graphics import Rectangle, Color
-from CashTGo.core.color import cTx  # Import color
-from kivy.app import App
+from kivy.clock import Clock
+from kivy.uix.image import Image
+from Project_5.CashTGo.core.widgets4 import MapViewWidget
+from Project_5.CashTGo.features.cashJourneyFe import CashJourney as CashJourneyFe
+from Project_5.CashTGo.core.widgets import CustomRoundedCard
+from Project_5.CashTGo.core.color import cTx
 
 
-class HomeBScreen(Screen):
-    def __init__(self, scanner=None, **kwargs):
-        super().__init__(**kwargs)
-        self.scanner = scanner  # Store the scanner instance
+class HomeBScreen ( Screen ):
+    def __init__(self , scanner=None , **kwargs):
+        """Initialize the HomeBScreen with an optional scanner."""
+        super ().__init__ ( **kwargs )
+        self.scanner = scanner
 
-        # Add background image using canvas
-        with self.canvas.before:
-            self.bg_image = Rectangle(source='assets/images/I1.png', size=self.size, pos=self.pos)
-        self.bind(size=self._update_background, pos=self._update_background)
+        # Validate assets
+        self._validate_required_assets ()
 
-        # Main layout for the screen
-        layout = BoxLayout(orientation="vertical", spacing=25, padding=[20, 40, 20, 20])
+        # Set up UI
+        self._setup_background_image ()
+        layout = self._build_main_layout ()
+        self.add_widget ( layout )
 
-        # Title Label
-        title_label = Label(
-            text="Welcome to HomeB!",
-            font_size="24sp",
-            size_hint=(1, 0.2),
-            color=[1, 1, 1, 1],  # White text for contrast
-            text_size=(None, None),  # Automatically adjusts the text size
-            halign="center",
-            valign="middle"
-        )
-        layout.add_widget(title_label)
-
-        # Label to display extracted text
-        self.extracted_text_label = Label(
-            text="Extracted text will be displayed here",
-            font_size="18sp",
-            size_hint=(1, 0.2),
-            color=[1, 1, 1, 1],  # White text for visibility
-            text_size=(None, None),
-            halign="center",
-            valign="middle"
-        )
-        layout.add_widget(self.extracted_text_label)
-
-        # Buttons Section (as Horizontal Scrollable View)
-        scroll_layout = BoxLayout(orientation="horizontal", spacing=20, size_hint=(None, 1))
-        scroll_layout.bind(minimum_width=scroll_layout.setter('width'))  # Bind width to content
-
-        # Add buttons inside ScrollView
-        scroll_buttons = [
-            {"text": "Cash4Good", "color": [0.2, 0.6, 0.8, 1], "screen": "cash4Good"},
-            {"text": "CashLotto", "color": [0.3, 0.7, 0.3, 1], "screen": "cashLotto"},
-            {"text": "CashBack", "color": [0.8, 0.3, 0.6, 1], "screen": "cashBack"},
-            {"text": "HomeA", "color": [0.7, 0.4, 0.2, 1], "screen": "homeA"},
-            {"text": "Cash Journey", "color": [0.7, 0.4, 0.2, 1], "screen": "cashJourney"},
+    def _validate_required_assets(self):
+        """Validate that the required assets exist."""
+        required_assets = [
+            "assets/images/I1.png" ,
+            "assets/fonts/PlaywriteNO-Regular.ttf" ,
         ]
-        for button_data in scroll_buttons:
-            button = Button(
-                text=button_data["text"],
-                font_size="20sp",
-                size_hint=(None, None),
-                size=("150dp", "100dp"),  # Fixed button size
-                background_normal="",
-                background_color=button_data["color"]
+        for asset in required_assets:
+            self._validate_asset ( asset )
+
+    @staticmethod
+    def _validate_asset(asset_path):
+        """Validate that a file at the given path exists."""
+        if not os.path.exists ( asset_path ):
+            raise FileNotFoundError ( f"Required asset '{asset_path}' not found." )
+
+    def _setup_background_image(self):
+        """Set up the background image for the screen."""
+        self.bg_image = Image (
+            source = "assets/images/I1.png" ,
+            allow_stretch = True ,
+            keep_ratio = False ,
+        )
+        self.add_widget ( self.bg_image )
+
+    def _build_main_layout(self):
+        """Build the main layout of the screen."""
+        layout = FloatLayout ()
+
+        # Add various UI elements
+        self._add_score_card ( layout )
+        self._add_title ( layout )
+        self._add_feature_scroll ( layout )
+        self._add_journey_map ( layout )
+        self._add_scan_discount ( layout )
+
+        return layout
+
+    def _add_score_card(self , layout):
+        """Add the score card at the top."""
+        score_data = (
+            "Score: 1390 Points\n"
+            "Scan-Wert: 1800\n"
+            "Gewinn-Beitrag: 120CG\n"
+            "CashTGoVirtual: 150P\n"
+            "CashTGo: 20CHF"
+        )
+
+        score_card = CustomRoundedCard (
+            pos_hint = {"center_x": 0.5 , "top": 0.80} ,
+            size_hint = (0.9 , None) ,
+            height = "150dp" ,
+        )
+
+        score_label = Label (
+            text = score_data ,
+            font_size = "18sp" ,
+            color = (0 , 0 , 0 , 1) ,
+            halign = "left" ,
+            valign = "top" ,
+            size_hint = (0.9 , 0.9) ,
+            text_size = (400 , None) ,
+            bold = True ,
+        )
+
+        score_layout = BoxLayout ( orientation = "vertical" )
+        score_layout.add_widget ( score_label )
+        score_card.add_widget ( score_layout )
+        layout.add_widget ( score_card )
+
+    def _add_title(self , layout):
+        """Add the title (Welcome Message)."""
+        title_label = Label (
+            text = "Scan Erfolgreich! Du hast 10 CHF gescount!\nDein Glück wartet" ,
+            font_size = "22sp" ,
+            color = cTx ,
+            font_name = "assets/fonts/PlaywriteNO-Regular.ttf" ,
+            halign = "center" ,
+            valign = "middle" ,
+            size_hint = (None , None) ,
+            size = (350 , 60) ,
+            text_size = (350 , None) ,
+            pos_hint = {"center_x": 0.5 , "top": 0.95} ,
+        )
+        layout.add_widget ( title_label )
+
+    def _add_feature_scroll(self , layout):
+        """Add scrollable cards for features."""
+        features = [
+            {
+                "text": "Cash\nBack" ,
+                "image": "assets/images/CashBack.png" ,
+                "action": self.go_to_cash_back ,
+            } ,
+            {
+                "text": "Cash\n4Good" ,
+                "image": "assets/images/Cash4Good.png" ,
+                "action": self.go_to_cash_good ,
+            } ,
+            {
+                "text": "Cash\nLotto" ,
+                "image": "assets/images/CashLotto.png" ,
+                "action": self.go_to_cash_lotto ,
+            } ,
+            {
+                "text": "Back" ,
+                "image": "assets/images/CashLotto.png" ,
+                "action": self.go_to_home ,
+            } ,
+        ]
+
+        self._validate_feature_assets ( features )
+
+        scroll_view = ScrollView (
+            size_hint = (0.8 , None) ,
+            height = "120dp" ,
+            pos_hint = {"center_x": 0.5 , "center_y": 0.1} ,
+            do_scroll_x = True ,
+            do_scroll_y = False ,
+        )
+
+        feature_layout = BoxLayout (
+            orientation = "horizontal" , size_hint = (None , 1) , width = 700
+        )
+
+        for feature in features:
+            card = CustomRoundedCard (
+                text = feature["text"] ,
+                image_path = feature["image"] ,
+                size_hint = (None , None) ,
+                size = (200 , 100) ,
             )
-            button.bind(
-                on_press=lambda instance, screen=button_data["screen"]: setattr(self.manager, "current", screen))
-            scroll_layout.add_widget(button)
+            card.bind ( on_press = feature["action"] )
+            feature_layout.add_widget ( card )
 
-        # Wrap the scroll_layout in a ScrollView
-        scroll_view = ScrollView(size_hint=(1, None), height="120dp")  # 120dp height fits one button row
-        scroll_view.add_widget(scroll_layout)
+        feature_layout.bind ( minimum_width = feature_layout.setter ( "width" ) )
+        scroll_view.add_widget ( feature_layout )
+        layout.add_widget ( scroll_view )
 
-        # Add ScrollView to the main vertical layout (at the bottom)
-        layout.add_widget(scroll_view)
+    @staticmethod
+    def _validate_feature_assets(features):
+        """Validate that all assets for features exist."""
+        for feature in features:
+            if not os.path.exists ( feature["image"] ):
+                raise FileNotFoundError ( f"Feature image '{feature['image']}' not found." )
 
-        # Add layout to the screen
-        self.add_widget(layout)
+    def _add_journey_map(self , layout):
+        """Add the map widget to the center of the layout using FloatLayout."""
+        container = FloatLayout ()
 
-        # Initialize the extracted text (optional scanner method call)
-        self.update_extracted_text()
+        map_view = MapViewWidget ()
+        map_view.size_hint = (None , None)
+        map_view.size = (300 , 200)  # Fixed size for the map view
+        map_view.pos_hint = {"center_x": 0.5 , "center_y": 0.40}  # Center the widget
 
-    def _update_background(self, *args):
-        """Ensure the background image adjusts to the screen size and position."""
-        self.bg_image.size = self.size
-        self.bg_image.pos = self.pos
+        # Add the map to the container
+        container.add_widget ( map_view )
 
-    def update_extracted_text(self):
-        """Update the extracted text label dynamically."""
-        try:
-            # If scanner is not None, get the extracted text
-            if self.scanner and hasattr(self.scanner, "get_extracted_text"):
-                extracted_text = self.scanner.get_extracted_text()  # Example method in scanner class
-                self.extracted_text_label.text = extracted_text
-            else:
-                self.extracted_text_label.text = "No scanner initialized."
-                self.extracted_text_label.font_size = "28sp",
-                self.extracted_text_label.color = cTx,  # Text color
-                self.extracted_text_label.font_name = "assets/fonts/PlaywriteNO-Regular.ttf",  # Custom font
-        except Exception as e:
-            # Handle exceptions gracefully
-            print(f"Error updating extracted text: {e}")
-            self.extracted_text_label.text = "Error while retrieving text."
+        # Add the "Cash Journey" label
+        journey_label = Label (
+            text = "Cash Journey" ,
+            font_size = "20sp" ,
+            color = (0 , 0 , 0 , 1) ,
+            bold = True ,
+            size_hint = (None , None) ,
+            size = (200 , 50) ,
+            pos_hint = {"center_x": 0.5 , "top": 0.55} ,
+            halign = "center" ,
+            valign = "middle" ,
+        )
+        journey_label.text_size = journey_label.size
+        container.add_widget ( journey_label )
+
+        layout.add_widget ( container )
+
+    def _add_scan_discount(self , layout):
+        """Add a Scan Discount message."""
+        scan_discount_label = Label (
+            text = "10.00 CHF = 10X Gescount!!" ,
+            font_size = "20sp" ,
+            color = (0 , 0 , 0 , 1) ,  # Black text
+            bold = True ,
+            size_hint = (None , None) ,
+            size = (300 , 50) ,  # Adjust size to fit text on one line
+            pos_hint = {"center_x": 0.5 , "top": 0.63} ,  # Ensure proper positioning
+            halign = "center" ,
+            valign = "middle" ,
+            opacity = 1  # Fully visible initially
+        )
+        scan_discount_label.text_size = scan_discount_label.size
+
+        # Add the label to the layout
+        layout.add_widget ( scan_discount_label )
+
+        # Method to toggle the opacity for flashing effect
+        def toggle_opacity(*args):
+            scan_discount_label.opacity = 1 if scan_discount_label.opacity == 0 else 0
+
+        # Schedule the flashing effect
+        Clock.schedule_interval ( toggle_opacity , 0.5 )  # Toggle every 0.5 seconds
+
+    # Navigation Methods
+    def go_to_cash_lotto(self , *args):
+        """Navigate to the Cash Lotto screen."""
+        self.manager.current = "cashLotto"
+
+    def go_to_cash_back(self , *args):
+        """Navigate to the Cash Back screen."""
+        self.manager.current = "cashBack"
+
+    def go_to_cash_good(self , *args):
+        """Navigate to the Cash 4Good screen."""
+        self.manager.current = "cash4Good"
+
+    def go_to_home(self , *args):
+        """Navigate back to the HomeA screen."""
+        self.manager.current = "homeA"

@@ -2,7 +2,7 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.label import Label
 from kivy.uix.image import Image
-from CashTGo.core.widgets import ShadowRoundedButton, InputField
+from Project_5.CashTGo.core.widgets import ShadowRoundedButton, InputField
 
 
 class RegisterScreen(Screen):

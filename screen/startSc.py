@@ -3,8 +3,8 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.label import Label
 from kivy.uix.image import Image
 from kivy.graphics import Color, RoundedRectangle
-from CashTGo.core.color import *  # Importiere alle Farbdefinitionen
-from CashTGo.core.widgets import ShadowRoundedButton
+from Project_5.CashTGo.core.color import *  # Importiere alle Farbdefinitionen
+from Project_5.CashTGo.core.widgets import ShadowRoundedButton
 
 class StartScreen(Screen):
     def __init__(self, **kwargs):
@@ -69,4 +69,6 @@ class StartScreen(Screen):
         self.manager.current = 'login'
 
     def goto_register_screen(self, *args):
-        self.manager.current = 'register'
+        #self.manager.current = 'register'
+        #self.manager.current = 'homeB'
+        self.manager.current = 'homeA'
