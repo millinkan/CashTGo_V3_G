@@ -1,125 +1,152 @@
-from kivy.app import App
-from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.core.window import Window
-from kivy.graphics import Color, Rectangle
 from kivy.lang import Builder
-from kivymd.app import MDApp
-
-from CashTGo.screen.scanSc import ScanScreen
-from kivy.uix.screenmanager import ScreenManager
-from kivy.uix.screenmanager import Screen
 from kivy.core.window import Window
-from CashTGo.core.scanner import Scanner
-#from CashTGo.core.color import colors
-from CashTGo.screen.cashJourneySc import CashJourneyScreen
+from kivy.uix.screenmanager import Screen , ScreenManager
+from kivymd.app import MDApp
+from Project_5.CashTGo.core.scanner import Scanner
 
-from core.color import *  # Importiere alle Farbdefinitionen
-from screen.startSc import StartScreen  # Importiere StartScreen
+from screen.startSc import StartScreen  # Import the start screen
 
-# Stylesheet laden
-Builder.load_file('core/styles.kv')
+# Load the stylesheet
+Builder.load_file ( 'core/styles.kv' )
 
-# Fenstergröße dynamisch anpassen oder auf eine mobile Standardgröße setzen
-Window.size = (360, 640)  # Standardgröße für kleine Smartphones
-# Oder für automatische Anpassung an den Bildschirm
-# Window.fullscreen = 'auto'
+# Set a standard window size for mobile applications
+Window.size = (360 , 640)  # Mobile-friendly resolution
 
-# Import available screen modules (replace missing ones with placeholders)
+# Optional: Attempt to import each additional screen. Provide fallbacks where necessary.
+# Each try-except block ensures that missing screens don’t halt the app.
 try:
     from screen.loginSc import LoginScreen
 except ImportError:
-    class LoginScreen(Screen):
-        pass
+    class LoginScreen ( Screen ):
+        def __init__(self , **kwargs):
+            super ().__init__ ( **kwargs )
+            self.name = "login"  # Default screen name fallback
 
 try:
     from screen.registerSc import RegisterScreen
 except ImportError:
-    class RegisterScreen(Screen):
-        pass
+    class RegisterScreen ( Screen ):
+        def __init__(self , **kwargs):
+            super ().__init__ ( **kwargs )
+            self.name = "register"  # Default screen name fallback
 
 try:
     from screen.homeASc import HomeAScreen
 except ImportError:
-    class HomeAScreen(Screen):
-        pass
+    class HomeAScreen ( Screen ):
+        def __init__(self , **kwargs):
+            super ().__init__ ( **kwargs )
+            self.name = "homeA"  # Default screen name fallback
 
 try:
     from screen.homeBSc import HomeBScreen
 except ImportError:
-    class HomeBScreen(Screen):
-        pass
+    class HomeBScreen ( Screen ):
+        def __init__(self , **kwargs):
+            super ().__init__ ( **kwargs )
+            self.name = "homeB"  # Default screen name fallback
 
 try:
     from screen.scanSc import ScanScreen
 except ImportError:
-    class ScanScreen(Screen):
-        pass
+    class ScanScreen ( Screen ):
+        def __init__(self , **kwargs):
+            super ().__init__ ( **kwargs )
+            self.name = "scan"  # Default screen name fallback
+
 try:
     from screen.cashJourneySc import CashJourneyScreen
 except ImportError:
-    class CashJourneyScreen(Screen):
-        pass
+    class CashJourneyScreen ( Screen ):
+        def __init__(self , **kwargs):
+            super ().__init__ ( **kwargs )
+            self.name = "cashJourney"  # Default screen name fallback
 
 try:
     from screen.cashLottoSc import CashLottoScreen
 except ImportError:
-    class CashLottoScreen(Screen):
-        pass
+    class CashLottoScreen ( Screen ):
+        def __init__(self , **kwargs):
+            super ().__init__ ( **kwargs )
+            self.name = "cashLotto"  # Default screen name fallback
 
 try:
     from screen.cash4GoodSc import Cash4GoodScreen
 except ImportError:
-    class Cash4GoodScreen(Screen):
-        pass
+    class Cash4GoodScreen ( Screen ):
+        def __init__(self , **kwargs):
+            super ().__init__ ( **kwargs )
+            self.name = "cash4Good"  # Default screen name fallback
 
 try:
     from screen.cashQuizSc import CashQuizScreen
 except ImportError:
-    class CashQuizScreen(Screen):
-        pass
+    class CashQuizScreen ( Screen ):
+        def __init__(self , **kwargs):
+            super ().__init__ ( **kwargs )
+            self.name = "cashQuiz"  # Default screen name fallback
 
 try:
     from screen.cashGameSc import CashGameScreen
 except ImportError:
-    class CashGameScreen(Screen):
-        pass
+    class CashGameScreen ( Screen ):
+        def __init__(self , **kwargs):
+            super ().__init__ ( **kwargs )
+            self.name = "cashGame"  # Default screen name fallback
 
 try:
     from screen.cashBackSc import CashBackScreen
 except ImportError:
-    class CashBackScreen(Screen):
-        pass
+    class CashBackScreen ( Screen ):
+        def __init__(self , **kwargs):
+            super ().__init__ ( **kwargs )
+            self.name = "cashBack"  # Default screen name fallback
 
 try:
     from screen.cashVoucherSc import CashVoucherScreen
 except ImportError:
-    class CashVoucherScreen(Screen):
-        pass
+    class CashVoucherScreen ( Screen ):
+        def __init__(self , **kwargs):
+            super ().__init__ ( **kwargs )
+            self.name = "cashVoucher"  # Default screen name fallback
+try:
+    from screen.cashGameSc import CashVoucherScreen
+except ImportError:
+    class CashGameScreenen ( Screen ):
+        def __init__(self , **kwargs):
+            super ().__init__ ( **kwargs )
+            self.name = "cashGames"  # Default screen name fallback
 
-# Main App Class
-class CashTGoApp(MDApp):
+
+# Define the main application class
+class CashTGoApp ( MDApp ):
     def build(self):
-        sm = ScreenManager()
-        sm.add_widget(StartScreen(name='start'))
-        sm.add_widget(LoginScreen(name='login'))
-        sm.add_widget(RegisterScreen(name='register'))
-        sm.add_widget(HomeAScreen(name='homeA'))
-        sm.add_widget(HomeBScreen(name='homeB'))
-        sm.add_widget(ScanScreen(name='scan'))
-        sm.add_widget(CashJourneyScreen(name='cashJourney'))
-        sm.add_widget(CashLottoScreen(name='cashLotto'))
-        sm.add_widget(Cash4GoodScreen(name='cash4Good'))
-        sm.add_widget(CashQuizScreen(name='cashQuiz'))
-        sm.add_widget(CashGameScreen(name='cashGame'))
-        sm.add_widget(CashBackScreen(name='cashBack'))
-        sm.add_widget(CashVoucherScreen(name='cashVoucher'))
-        sm.add_widget(Scanner(name='scanbus'))
-        #sm.add_widget(CashJourney(name='cashJourneybus'))
-        return sm
+        # Initialize the screen manager
+        screen_manager = ScreenManager ()
+
+        # Add all the available screens to the screen manager
+        screen_manager.add_widget ( StartScreen ( name = 'start' ) )
+        screen_manager.add_widget ( LoginScreen ( name = 'login' ) )
+        screen_manager.add_widget ( RegisterScreen ( name = 'register' ) )
+        screen_manager.add_widget ( HomeAScreen ( name = 'homeA' ) )
+        screen_manager.add_widget ( HomeBScreen ( name = 'homeB' ) )
+        screen_manager.add_widget ( ScanScreen ( name = 'scan' ) )
+        screen_manager.add_widget ( CashJourneyScreen ( name = 'cashJourney' ) )
+        screen_manager.add_widget ( CashLottoScreen ( name = 'cashLotto' ) )
+        screen_manager.add_widget ( Cash4GoodScreen ( name = 'cash4Good' ) )
+        screen_manager.add_widget ( CashQuizScreen ( name = 'cashQuiz' ) )
+        screen_manager.add_widget ( CashGameScreen ( name = 'cashGame' ) )
+        screen_manager.add_widget ( CashBackScreen ( name = 'cashBack' ) )
+        screen_manager.add_widget ( CashVoucherScreen ( name = 'cashVoucher' ) )
+        screen_manager.add_widget ( CashGameScreen ( name = 'cashGames' ) )
+
+        # Adding Scanner as a special screen
+        screen_manager.add_widget ( Scanner ( name = 'scanbus' ) )
+
+        # Return the screen manager as the app's root widget
+        return screen_manager
 
 
-if __name__ != '__main__':
-    pass
-# Entry point
-else:
-    CashTGoApp().run()
+# Entry point of the application
+if __name__ == '__main__':
+    CashTGoApp ().run ()
