@@ -4,7 +4,7 @@ from kivy_garden.mapview import MapView, MapMarker
 from kivy.clock import Clock
 
 
-class cashJourneyFe(Screen):
+class CashJourney(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
