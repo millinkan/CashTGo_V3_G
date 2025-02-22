@@ -127,7 +127,10 @@ class Scanner(Screen):
 
     def on_save_pressed(self, instance):
         """Save the captured image and extract text using OCR."""
-        pytesseract.pytesseract.tesseract_cmd = r'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
+        #pytesseract.pytesseract.tesseract_cmd = r'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
+        #after win 11 installation
+        pytesseract.pytesseract.tesseract_cmd = r'C:\Users\Guptm\AppData\Local\Programs\Tesseract-OCR\tesseract.exe'
+
         """Save the captured image."""
         if self.current_frame is None:  # Check for None explicitly
             print("No frame to save! Start scanning first.")
